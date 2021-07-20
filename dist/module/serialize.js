@@ -2,8 +2,8 @@ var _SERIALIZER;
 
 import { TYPE } from './constants';
 import { determineType, isSerializedType } from './common';
-import { serializeFunction, serializeError, serializePromise, serializeRegex, serializeDate, serializeArray, serializeObject, serializeString, serializeNumber, serializeBoolean, serializeNull } from './serializers';
-var SERIALIZER = (_SERIALIZER = {}, _SERIALIZER[TYPE.FUNCTION] = serializeFunction, _SERIALIZER[TYPE.ERROR] = serializeError, _SERIALIZER[TYPE.PROMISE] = serializePromise, _SERIALIZER[TYPE.REGEX] = serializeRegex, _SERIALIZER[TYPE.DATE] = serializeDate, _SERIALIZER[TYPE.ARRAY] = serializeArray, _SERIALIZER[TYPE.OBJECT] = serializeObject, _SERIALIZER[TYPE.STRING] = serializeString, _SERIALIZER[TYPE.NUMBER] = serializeNumber, _SERIALIZER[TYPE.BOOLEAN] = serializeBoolean, _SERIALIZER[TYPE.NULL] = serializeNull, _SERIALIZER); // $FlowFixMe
+import { serializeFunction, serializeError, serializePromise, serializeRegex, serializeDate, serializeArray, serializeObject, serializeString, serializeNumber, serializeBoolean, serializeNull, serializeUndefined } from './serializers';
+var SERIALIZER = (_SERIALIZER = {}, _SERIALIZER[TYPE.FUNCTION] = serializeFunction, _SERIALIZER[TYPE.ERROR] = serializeError, _SERIALIZER[TYPE.PROMISE] = serializePromise, _SERIALIZER[TYPE.REGEX] = serializeRegex, _SERIALIZER[TYPE.DATE] = serializeDate, _SERIALIZER[TYPE.ARRAY] = serializeArray, _SERIALIZER[TYPE.OBJECT] = serializeObject, _SERIALIZER[TYPE.STRING] = serializeString, _SERIALIZER[TYPE.NUMBER] = serializeNumber, _SERIALIZER[TYPE.BOOLEAN] = serializeBoolean, _SERIALIZER[TYPE.NULL] = serializeNull, _SERIALIZER[TYPE.UNDEFINED] = serializeUndefined, _SERIALIZER); // $FlowFixMe
 
 var defaultSerializers = {};
 export function serialize(obj, serializers) {
