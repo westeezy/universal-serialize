@@ -14,7 +14,8 @@ import {
     serializeString,
     serializeNumber,
     serializeBoolean,
-    serializeNull
+    serializeNull,
+    serializeUndefined
 } from './serializers';
 
 type NativeSerializer<V : mixed, S : mixed, T : $Values<typeof TYPE>> = (value : V, key : string) => NativeSerializedType<T, S>;
@@ -34,7 +35,8 @@ type Serializers = {|
     string? : CustomOrPrimitiveSerializer<string, typeof TYPE.STRING>,
     number? : CustomOrPrimitiveSerializer<number, typeof TYPE.NUMBER>,
     boolean? : CustomOrPrimitiveSerializer<boolean, typeof TYPE.BOOLEAN>,
-    null? : CustomOrPrimitiveSerializer<null, typeof TYPE.NULL>
+    null? : CustomOrPrimitiveSerializer<null, typeof TYPE.NULL>,
+    undefined? : CustomOrPrimitiveSerializer<void, typeof TYPE.UNDEFINED>
 |};
 
 const SERIALIZER : Serializers = {
@@ -48,7 +50,8 @@ const SERIALIZER : Serializers = {
     [ TYPE.STRING ]:    serializeString,
     [ TYPE.NUMBER ]:    serializeNumber,
     [ TYPE.BOOLEAN ]:   serializeBoolean,
-    [ TYPE.NULL ]:      serializeNull
+    [ TYPE.NULL ]:      serializeNull,
+    [ TYPE.UNDEFINED ]: serializeUndefined
 };
 
 // $FlowFixMe

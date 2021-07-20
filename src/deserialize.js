@@ -14,7 +14,8 @@ import {
     deserializeString,
     deserializeNumber,
     deserializeBoolean,
-    deserializeNull
+    deserializeNull,
+    deserializeUndefined
 } from './serializers';
 
 type Deserializer<V : mixed, S : mixed> = (serializedValue : S, key : string) => V;
@@ -32,7 +33,8 @@ type Deserializers = {
     number? : PrimitiveDeserializer<number>,
     boolean? : PrimitiveDeserializer<boolean>,
     null? : PrimitiveDeserializer<null>,
-    [string] : Deserializer<mixed, *>
+    [string] : Deserializer<mixed, *>,
+    undefined? : PrimitiveDeserializer<void>
 };
 
 // $FlowFixMe
@@ -47,7 +49,8 @@ const DESERIALIZER : Deserializers = {
     [ TYPE.STRING ]:    deserializeString,
     [ TYPE.NUMBER ]:    deserializeNumber,
     [ TYPE.BOOLEAN ]:   deserializeBoolean,
-    [ TYPE.NULL ]:      deserializeNull
+    [ TYPE.NULL ]:      deserializeNull,
+    [ TYPE.UNDEFINED ]: deserializeUndefined
 };
 
 // $FlowFixMe

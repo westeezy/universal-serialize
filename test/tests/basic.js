@@ -84,6 +84,22 @@ describe('basic type cases', () => {
         }
     });
 
+    it('should serialize undefined in an object', () => {
+        const obj = { foo: undefined };
+        const result = deserialize(serialize(obj));
+        if (result.foo !== obj.foo) {
+            throw new Error(`Expected ${ JSON.stringify(result.foo) } to equal ${ JSON.stringify(obj.foo) || 'undefined' }`);
+        }
+    });
+
+    it('should serialize undefined in an array', () => {
+        const arr = [ undefined ];
+        const result = deserialize(serialize(arr));
+        if (arr[0] !== result[0]) {
+            throw new Error(`Expected ${ JSON.stringify(result[0]) || 'undefined' } to equal ${ JSON.stringify(arr[0]) || 'undefined' }`);
+        }
+    });
+
     it('should serialize an error', () => {
         const val = new Error('meep');
         // $FlowFixMe

@@ -11,3 +11,4 @@ export * from './promise';
 export * from './regex';
 export * from './string';
 export * from './null';
+export * from './undefined';
