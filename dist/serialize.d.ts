@@ -1,0 +1,25 @@
+import { $Values } from 'utility-types';
+import { TYPE } from './constants';
+import type { Thenable, CustomSerializedType, NativeSerializedType } from './types';
+import type { SerializedError, SerializedRegex, SerializedDate } from './serializers';
+declare type NativeSerializer<V extends unknown, S extends unknown, T extends $Values<typeof TYPE>> = (value: V, key: string) => NativeSerializedType<T, S>;
+declare type CustomSerializer<V extends unknown, S extends unknown, T extends string> = (value: V, key: string) => CustomSerializedType<T, S>;
+declare type PrimitiveSerializer<V extends unknown, S extends unknown> = (value: V, key: string) => S;
+declare type CustomOrPrimitiveSerializer<V extends unknown, T extends string> = CustomSerializer<V, any, T> | PrimitiveSerializer<V, any>;
+declare type NativeOrCustomOrPrimitiveSerializer<V extends unknown, S extends unknown, T extends $Values<typeof TYPE>> = NativeSerializer<V, S, T> | CustomOrPrimitiveSerializer<V, T>;
+declare type Serializers = {
+    function?: CustomOrPrimitiveSerializer<(...args: Array<any>) => any, typeof TYPE.FUNCTION>;
+    error?: NativeOrCustomOrPrimitiveSerializer<Error, SerializedError, typeof TYPE.ERROR>;
+    promise?: CustomOrPrimitiveSerializer<Thenable, typeof TYPE.PROMISE>;
+    regex?: NativeOrCustomOrPrimitiveSerializer<RegExp, SerializedRegex, typeof TYPE.REGEX>;
+    date?: NativeOrCustomOrPrimitiveSerializer<Date, SerializedDate, typeof TYPE.DATE>;
+    array?: CustomOrPrimitiveSerializer<ReadonlyArray<unknown>, typeof TYPE.ARRAY>;
+    object?: CustomOrPrimitiveSerializer<Record<string, any>, typeof TYPE.OBJECT>;
+    string?: CustomOrPrimitiveSerializer<string, typeof TYPE.STRING>;
+    number?: CustomOrPrimitiveSerializer<number, typeof TYPE.NUMBER>;
+    boolean?: CustomOrPrimitiveSerializer<boolean, typeof TYPE.BOOLEAN>;
+    null?: CustomOrPrimitiveSerializer<null, typeof TYPE.NULL>;
+    undefined?: CustomOrPrimitiveSerializer<void, typeof TYPE.UNDEFINED>;
+};
+export declare function serialize<T extends unknown>(obj: T, serializers?: Serializers): string;
+export {};

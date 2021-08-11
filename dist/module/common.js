@@ -1,5 +1,6 @@
 import { TYPE } from './constants';
 export function isSerializedType(item) {
+  // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
   return typeof item === 'object' && item !== null && typeof item.__type__ === 'string';
 }
 export function determineType(val) {
@@ -26,13 +27,11 @@ export function determineType(val) {
 
     if (typeof val.then === 'function') {
       return TYPE.PROMISE;
-    } // $FlowFixMe method-unbinding
-
+    }
 
     if (Object.prototype.toString.call(val) === '[object RegExp]') {
       return TYPE.REGEX;
-    } // $FlowFixMe method-unbinding
-
+    }
 
     if (Object.prototype.toString.call(val) === '[object Date]') {
       return TYPE.DATE;
