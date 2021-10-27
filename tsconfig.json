@@ -1,6 +1,3 @@
 {
-    "extends": "grumbler-scripts/config/tsconfig.json",
-    "compilerOptions": {
-        "strictNullChecks": false
-    }
+    "extends": "grumbler-scripts/config/tsconfig.json"
 }

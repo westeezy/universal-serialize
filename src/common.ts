@@ -1,10 +1,10 @@
-import { $Values } from 'utility-types';
+import type { $Values } from 'utility-types';
 
 import { TYPE } from './constants';
 import type { CustomSerializedType } from './types';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function isSerializedType(item: any): boolean {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+export function isSerializedType(item : any) : boolean {
     return (
         typeof item === 'object' &&
         item !== null &&
@@ -12,7 +12,8 @@ export function isSerializedType(item: any): boolean {
     );
 }
 
-export function determineType(val: unknown): $Values<typeof TYPE> {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+export function determineType(val : any) : $Values<typeof TYPE> | undefined {
     if (typeof val === 'undefined') {
         return TYPE.UNDEFINED;
     }
@@ -34,7 +35,7 @@ export function determineType(val: unknown): $Values<typeof TYPE> {
             return TYPE.ERROR;
         }
 
-        if (typeof (val as any).then === 'function') {
+        if (typeof val.then === 'function') {
             return TYPE.PROMISE;
         }
 
@@ -61,12 +62,10 @@ export function determineType(val: unknown): $Values<typeof TYPE> {
         return TYPE.BOOLEAN;
     }
 }
-export function serializeType<T extends string, V extends unknown>(
-    type: T,
-    val: V
-): CustomSerializedType<T, V> {
+
+export function serializeType<T extends string, V>(type : T, val : V) : CustomSerializedType<T, V> {
     return {
-        __type__:type,
-        __val__: val
+        __type__: type,
+        __val__:  val
     };
 }

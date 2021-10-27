@@ -5,20 +5,18 @@ import type { NativeSerializedType } from '../types';
 import { serializeObject } from './object';
 
 export type SerializedError = {
-    message: string;
-    stack: string;
-    code: string | number | void;
-    data: unknown;
+    message : string,
+    stack : string | undefined,
+    code : string | undefined,
+    data ?: Record<string, unknown>,
 };
 
-export function serializeError({
-    message,
-    stack,
-    // @ts-ignore - Error does not match NodeJS.ErrnoException
-    code,
-    // @ts-ignore - not sure where data comes from
-    data
-}: Error): NativeSerializedType<typeof TYPE.ERROR, SerializedError> {
+export type ExtendedError = {
+    data ?: Record<string, unknown>,
+// eslint-disable-next-line  no-undef
+} & NodeJS.ErrnoException;
+
+export function serializeError({ message, stack, code, data } : ExtendedError) : NativeSerializedType<typeof TYPE.ERROR, SerializedError> {
     return serializeType(TYPE.ERROR, {
         message,
         stack,
@@ -26,18 +24,12 @@ export function serializeError({
         data
     });
 }
-export function deserializeError({
-    message,
-    stack,
-    code,
-    data
-}: SerializedError): Error {
-    const error = new Error(message);
-    // @ts-ignore
+
+export function deserializeError({ message, stack, code, data } : SerializedError) : ExtendedError {
+    const error : ExtendedError = new Error(message);
     error.code = code;
 
     if (data) {
-        // @ts-ignore
         error.data = serializeObject(data);
     }
 

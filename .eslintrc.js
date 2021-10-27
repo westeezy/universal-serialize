@@ -1,3 +1,3 @@
 module.exports = {
-    'extends': require.resolve('grumbler-scripts/config/.eslintrc-browser.js')
+    'extends': require.resolve('grumbler-scripts/config/.eslintrc-typescript.js')
 };

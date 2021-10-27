@@ -1,10 +1,8 @@
-import type { Thenable } from '../types';
-
-export type SerializedPromise = void;
-export function serializePromise(): SerializedPromise {
+export function serializePromise() : void {
     // pass
 }
-export function deserializePromise(): Thenable {
+
+export function deserializePromise() : Error {
     throw new Error(
         `Promise serialization is not implemented; nothing to deserialize`
     );

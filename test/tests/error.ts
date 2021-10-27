@@ -1,6 +1,7 @@
 import { deserialize } from '../../src';
 
 describe('error cases', () => {
+
     it('should error while trying to deserialize a function', () => {
         let error;
 
@@ -14,6 +15,7 @@ describe('error cases', () => {
             throw new Error(`Expected error to be thrown`);
         }
     });
+
     it('should error while trying to deserialize a promise', () => {
         let error;
 
@@ -27,4 +29,5 @@ describe('error cases', () => {
             throw new Error(`Expected error to be thrown`);
         }
     });
+
 });

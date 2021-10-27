@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "setup": "npm install",
-    "lint": "eslint --ext ts,tsx,js,jsx src/ test/",
+    "lint": "eslint --ext ts,tsx,js,jsx src/ test/ --fix",
     "karma": "cross-env NODE_ENV=test babel-node --trace-deprecation --presets '@babel/preset-env' ./node_modules/.bin/karma start",
     "babel": "cross-env NODE_ENV=production babel src/ --out-dir dist/module --extensions .ts,.tsx",
     "webpack": "babel-node --plugins=transform-es2015-modules-commonjs ./node_modules/.bin/webpack --progress",

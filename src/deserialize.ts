@@ -1,4 +1,3 @@
-import type { Thenable } from './types';
 import { TYPE } from './constants';
 import { determineType, isSerializedType } from './common';
 import type {
@@ -21,55 +20,52 @@ import {
     deserializeUndefined
 } from './serializers';
 
-type Deserializer<V extends unknown, S extends unknown> = (
-    serializedValue: S,
-    key: string
-) => V;
-type PrimitiveDeserializer<V, S = V> = (serializedValue: S, key: string) => V;
+type Deserializer<V, S> = (serializedValue : S, key : string) => V;
+type PrimitiveDeserializer<V, S = V> = (serializedValue : S, key : string) => V;
 
 type Deserializers = {
-    // @ts-ignroe - function deserlization not supported yet... Deserializer<Function, any>
-    function?: any;
-    error?: Deserializer<Error, SerializedError>;
-    promise?: Deserializer<Thenable, any>;
-    regex?: Deserializer<RegExp, SerializedRegex>;
-    date?: Deserializer<Date, SerializedDate>;
-    array?: PrimitiveDeserializer<ReadonlyArray<unknown>>;
-    object?: PrimitiveDeserializer<Record<string, any>>;
-    string?: PrimitiveDeserializer<string>;
-    number?: PrimitiveDeserializer<number>;
-    boolean?: PrimitiveDeserializer<boolean>;
-    null?: PrimitiveDeserializer<null>;
-    undefined?: PrimitiveDeserializer<void>;
-    [key: string]: Deserializer<unknown, any>;
+    function : Deserializer<unknown, unknown>,
+    error : Deserializer<Error, SerializedError>,
+    promise : Deserializer<unknown, unknown>,
+    regex : Deserializer<RegExp, SerializedRegex>,
+    date : Deserializer<Date, SerializedDate>,
+    array : PrimitiveDeserializer<ReadonlyArray<unknown>>,
+    object : PrimitiveDeserializer<Record<string, unknown>>,
+    string : PrimitiveDeserializer<string>,
+    number : PrimitiveDeserializer<number>,
+    boolean : PrimitiveDeserializer<boolean>,
+    null : PrimitiveDeserializer<null>,
+    undefined : PrimitiveDeserializer<void>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key : string] : Deserializer<unknown, any>,
 };
 
-const DESERIALIZER: Deserializers = {
-    [TYPE.FUNCTION]: deserializeFunction,
-    [TYPE.ERROR]:    deserializeError,
-    [TYPE.PROMISE]:  deserializePromise,
-    [TYPE.REGEX]:    deserializeRegex,
-    [TYPE.DATE]:     deserializeDate,
-    [TYPE.ARRAY]:    deserializeArray,
-    [TYPE.OBJECT]:   deserializeObject,
-    [TYPE.STRING]:   deserializeString,
-    [TYPE.NUMBER]:   deserializeNumber,
-    [TYPE.BOOLEAN]:  deserializeBoolean,
-    [TYPE.NULL]:     deserializeNull,
-    [TYPE.UNDEFINED]:deserializeUndefined
+const DESERIALIZER : Deserializers = {
+    [TYPE.FUNCTION]:  deserializeFunction,
+    [TYPE.ERROR]:     deserializeError,
+    [TYPE.PROMISE]:   deserializePromise,
+    [TYPE.REGEX]:     deserializeRegex,
+    [TYPE.DATE]:      deserializeDate,
+    [TYPE.ARRAY]:     deserializeArray,
+    [TYPE.OBJECT]:    deserializeObject,
+    [TYPE.STRING]:    deserializeString,
+    [TYPE.NUMBER]:    deserializeNumber,
+    [TYPE.BOOLEAN]:   deserializeBoolean,
+    [TYPE.NULL]:      deserializeNull,
+    [TYPE.UNDEFINED]: deserializeUndefined
 };
-const defaultDeserializers: Deserializers = {};
 
-export function deserialize<T extends unknown | null | void>(
-    str: string,
-    deserializers: Deserializers = defaultDeserializers
-): T {
+const defaultDeserializers : Partial<Deserializers> = {};
+
+export function deserialize<T extends unknown | null>(str : string, deserializers : Partial<Deserializers> = defaultDeserializers) : T {
     if (str === TYPE.UNDEFINED) {
+        // the lib allows undefined returns but doesnt expect type assertions for it. need fixing
         // @ts-ignore
         return;
     }
 
-    function replacer(key: string, val: any): unknown | null | undefined {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function replacer(key : string, val : any) : unknown | null | undefined {
         // @ts-ignore
         if (isSerializedType(this)) {
             return val;
@@ -90,7 +86,7 @@ export function deserialize<T extends unknown | null | void>(
             return value;
         }
 
-        const deserializer = deserializers[type] || DESERIALIZER[type];
+        const deserializer = deserializers[type] ?? DESERIALIZER[type];
 
         if (!deserializer) {
             return value;

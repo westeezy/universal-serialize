@@ -3,7 +3,7 @@
 import { getWebpackConfig } from 'grumbler-scripts/config/webpack.config';
 import type { WebpackConfig } from 'grumbler-scripts/config/types';
 
-const FILE_NAME = 'universalSerialize';
+const FILE_NAME = 'universal-serialize';
 const MODULE_NAME = 'universal-serialize';
 
 export const WEBPACK_CONFIG : WebpackConfig = getWebpackConfig({
