@@ -14,7 +14,7 @@
     "tsc": "tsc",
     "build": "npm run test && npm run babel && npm run webpack && npm run build:types",
     "build:flow": "find . -type f -not -path './node_modules/*' -name '*.d.ts' -exec sh -c 'flowgen --add-flow-header $1 -o ${1%.*.*}.js.flow' _ '{}' \\;",
-    "build:tsc": "tsc -p tsconfig.build.json",
+    "build:tsc": "tsc src/**/* --outDir dist --declaration --emitDeclarationOnly",
     "build:types": "npm run build:tsc && npm run build:flow",
     "release": "./publish.sh",
     "release:patch": "./publish.sh patch",
