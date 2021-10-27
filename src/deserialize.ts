@@ -19,6 +19,7 @@ import {
     deserializeNull,
     deserializeUndefined
 } from './serializers';
+import type { CustomSerializedType } from './types';
 
 type Deserializer<V, S> = (serializedValue : S, key : string) => V;
 type PrimitiveDeserializer<V, S = V> = (serializedValue : S, key : string) => V;
@@ -64,9 +65,8 @@ export function deserialize<T extends unknown | null>(str : string, deserializer
         return;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function replacer(key : string, val : any) : unknown | null | undefined {
-        // @ts-ignore
+    function replacer(key : string, val : CustomSerializedType<string, T>) : unknown | null | undefined {
+        // @ts-ignore - function this has unknown caller
         if (isSerializedType(this)) {
             return val;
         }

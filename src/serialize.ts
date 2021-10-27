@@ -69,10 +69,10 @@ const defaultSerializers : Serializers = {};
 
 export function serialize<T>(obj : T, serializers : Serializers = defaultSerializers) : string {
     function replacer(key : string) : unknown | null | undefined {
-        // @ts-ignore
+        // @ts-ignore - this has unknown caller
         const val = this[key];
 
-        // @ts-ignore
+        // @ts-ignore = this has unknown caller
         if (isSerializedType(this)) {
             return val;
         }
