@@ -1,6 +1,7 @@
 import { serializeType } from '../common';
 import { TYPE } from '../constants';
 import { serializeObject } from './object';
+// $FlowFixMe
 export function serializeError(_ref) {
   var message = _ref.message,
       stack = _ref.stack,
@@ -18,12 +19,12 @@ export function deserializeError(_ref2) {
       stack = _ref2.stack,
       code = _ref2.code,
       data = _ref2.data;
-  var error = new Error(message); // @ts-ignore
+  var error = new Error(message); // $FlowFixMe
 
   error.code = code;
 
   if (data) {
-    // @ts-ignore
+    // $FlowFixMe
     error.data = serializeObject(data);
   }
 
